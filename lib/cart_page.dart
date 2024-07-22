@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoe_app/global_variable.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -6,23 +7,33 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment(1.5, 0.0),
-            end: Alignment(-3.0, 0.0),
-            colors: [
-              Color(0xFF26292D),
-              Color(0xFF575A61),
-            ],
-            stops: [0.3692, 0.9613],
-            transform:
-                GradientRotation(64 * 3.1415927 / 90), // 14 degrees in radians
-          ),
-        ),
-        child: const Center(
-          child: Text('Cart Page'),
-        ),
+      appBar: AppBar(
+        title: const Text('Cart'),
+      ),
+      body: ListView.builder(
+        itemCount: cart.length,
+        itemBuilder: (context, index) {
+          final cartItem = cart[index];
+
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage(
+                cartItem['imageUrl'].toString(),
+              ),
+              radius: 30,
+            ),
+            trailing: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.delete),
+              color: Colors.red,
+            ),
+            title: Text(
+              cartItem['title'].toString(),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            subtitle: Text('Size: ${cartItem['size'].toString()}'),
+          );
+        },
       ),
     );
   }
