@@ -11,7 +11,10 @@ class CartPage extends StatelessWidget {
     // final cart = Provider.of<CartProvider>(context).cart;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cart'),
+        title: Text(
+          'Cart',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
       body: ListView.builder(
         itemCount: cart.length,
