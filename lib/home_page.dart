@@ -31,7 +31,8 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: CurvedNavigationBar(
-              height: 60,
+              height: 55,
+              animationDuration: const Duration(milliseconds: 400),
               color: const Color.fromARGB(255, 165, 165, 165),
               buttonBackgroundColor: const Color(0xFFD1A55C),
               animationCurve: Curves.ease,
