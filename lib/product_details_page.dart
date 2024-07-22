@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoe_app/cart_provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final Map<String, Object> product;
@@ -13,6 +15,46 @@ class ProductDetailsPage extends StatefulWidget {
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   int selectedSize = 0;
+
+  void onTap() {
+    if (selectedSize == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Please select a size',
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Color.fromARGB(209, 165, 31, 31),
+          duration: Duration(milliseconds: 900),
+        ),
+      );
+      return;
+    }
+
+    Provider.of<CartProvider>(context, listen: false).addProduct({
+      'id': widget.product['id'],
+      'title': widget.product['title'],
+      'price': widget.product['price'],
+      'imageUrl': widget.product['imageUrl'],
+      'company': widget.product['company'],
+      'size': selectedSize,
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Product Added Successfully',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        backgroundColor: Color.fromARGB(209, 28, 196, 42),
+        duration: Duration(milliseconds: 1000),
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -94,7 +136,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       Icons.shopping_cart_outlined,
                       color: Colors.black,
                     ),
-                    onPressed: () {},
+                    onPressed: onTap,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       minimumSize: const Size(double.infinity, 50),
