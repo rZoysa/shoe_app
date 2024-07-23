@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_app/global_variable.dart';
-import 'package:shoe_app/widgets/product_card.dart';
 import 'package:shoe_app/pages/product_details_page.dart';
+import 'package:shoe_app/widgets/product_card.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({super.key});
@@ -21,6 +21,8 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Color.fromRGBO(225, 225, 225, 1),
@@ -93,65 +95,112 @@ class _ProductListState extends State<ProductList> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: products.length + 1, // Add 1 for the end text
-              itemBuilder: (context, index) {
-                if (index == products.length) {
-                  // Show the end text
-                  return Container(
-                    padding: const EdgeInsets.all(20.0),
-                    margin: const EdgeInsets.only(bottom: 80.0),
-                    child: const Center(
-                      child: Text(
-                        'You reached the end of the page.',
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.grey,
-                        ),
-                      ),
+            child: size.width > 650
+                ? GridView.builder(
+                    itemCount: products.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 2,
                     ),
-                  );
-                } else {
-                  // Show the product card
-                  final product = products[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return ProductDetailsPage(product: product);
-                          },
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(1.0, 0.0);
-                            const end = Offset.zero;
-                            const curve = Curves.ease;
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return ProductDetailsPage(product: product);
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                const begin = Offset(1.0, 0.0);
+                                const end = Offset.zero;
+                                const curve = Curves.ease;
 
-                            var tween = Tween(begin: begin, end: end)
-                                .chain(CurveTween(curve: curve));
-                            var offsetAnimation = animation.drive(tween);
+                                var tween = Tween(begin: begin, end: end)
+                                    .chain(CurveTween(curve: curve));
+                                var offsetAnimation = animation.drive(tween);
 
-                            return SlideTransition(
-                              position: offsetAnimation,
-                              child: child,
-                            );
-                          },
+                                return SlideTransition(
+                                  position: offsetAnimation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: ProductCard(
+                          title: product['title'] as String,
+                          price: product['price'] as double,
+                          image: product['imageUrl'] as String,
+                          backgroundColor: index.isEven
+                              ? const Color.fromRGBO(216, 240, 253, 1)
+                              : const Color.fromRGBO(245, 247, 249, 1),
                         ),
                       );
                     },
-                    child: ProductCard(
-                      title: product['title'] as String,
-                      price: product['price'] as double,
-                      image: product['imageUrl'] as String,
-                      backgroundColor: index.isEven
-                          ? const Color.fromRGBO(216, 240, 253, 1)
-                          : const Color.fromRGBO(245, 247, 249, 1),
-                    ),
-                  );
-                }
-              },
-            ),
+                  )
+                : ListView.builder(
+                    itemCount: products.length + 1, // Add 1 for the end text
+                    itemBuilder: (context, index) {
+                      if (index == products.length) {
+                        // Show the end text
+                        return Container(
+                          padding: const EdgeInsets.all(20.0),
+                          margin: const EdgeInsets.only(bottom: 80.0),
+                          child: const Center(
+                            child: Text(
+                              'You reached the end of the page.',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        // Show the product card
+                        final product = products[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) {
+                                  return ProductDetailsPage(product: product);
+                                },
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  const begin = Offset(1.0, 0.0);
+                                  const end = Offset.zero;
+                                  const curve = Curves.ease;
+
+                                  var tween = Tween(begin: begin, end: end)
+                                      .chain(CurveTween(curve: curve));
+                                  var offsetAnimation = animation.drive(tween);
+
+                                  return SlideTransition(
+                                    position: offsetAnimation,
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: ProductCard(
+                            title: product['title'] as String,
+                            price: product['price'] as double,
+                            image: product['imageUrl'] as String,
+                            backgroundColor: index.isEven
+                                ? const Color.fromRGBO(216, 240, 253, 1)
+                                : const Color.fromRGBO(245, 247, 249, 1),
+                          ),
+                        );
+                      }
+                    },
+                  ),
           ),
         ],
       ),
