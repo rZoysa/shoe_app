@@ -133,7 +133,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(21.0),
                   child: ElevatedButton.icon(
                     icon: const Icon(
                       Icons.shopping_cart_outlined,
