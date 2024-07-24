@@ -11,8 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentPage = 0;
-
   int _selectedIndex = 0;
 
   List<Widget> pages = const [ProductList(), CartPage()];
