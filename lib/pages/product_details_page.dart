@@ -100,7 +100,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 11,
                 ),
                 SizedBox(
                   height: 50,
