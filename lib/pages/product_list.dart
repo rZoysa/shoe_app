@@ -28,7 +28,7 @@ class _ProductListState extends State<ProductList> {
         color: Color.fromRGBO(225, 225, 225, 1),
       ),
       borderRadius: BorderRadius.horizontal(
-        left: Radius.circular(52),
+        left: Radius.circular(51),
       ),
     );
     return SafeArea(
