@@ -87,7 +87,7 @@ class _ProductListState extends State<ProductList> {
                       label: Text(filter),
                       labelStyle: const TextStyle(fontSize: 16),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(31)),
+                          borderRadius: BorderRadius.circular(32)),
                     ),
                   ),
                 );
